@@ -7,7 +7,7 @@ import datetime
 from colorama import Fore, Back, Style
 log=""
 appstart=str(datetime.datetime.now())
-ncapversion="v0.0.2"
+ncapversion="v0.0.3"
 
 def logadd(content):
     global log
@@ -159,9 +159,9 @@ if jfexists(njf,"modified-by-ncap-DO-NOT-REMOVE.json"):
     logadd("Navine Client Asset Patcher data:\n  Last version used to modify client: "+ncapdata["ncapversion"]+"\n  When was the client modified: "+ncapdata["lastmodified"])
 print(Style.RESET_ALL)
 
-choi=input(Fore.CYAN+"Asset to overwrite (valid strings are: 'title screen','uwu module furry mode enabled skin','icon' ):\n")
+choi=input(Fore.CYAN+"Asset to overwrite (valid strings are: 'title screen','furry skin','icon' ):\n")
 logadd("User selected asset: "+choi)
-if not choi in ["title screen","uwu module furry mode enabled skin","icon"]:
+if not choi in ["title screen","furry skin","icon"]:
     print(Fore.RED+"Invalid asset!")
     logadd("User selected invalid asset")
     input("Press enter to exit")
@@ -174,10 +174,16 @@ else:
             logadd("User selected image: "+imagefilep)
             with open(imagefilep, 'rb') as f:
                 icontent = f.read()
-            jfremove(njf,"assets/navine/sigma.jpg")
-            jbfwrite(njf,"assets/navine/sigma.jpg",icontent)
-            print(Fore.GREEN+"Written "+imagefilep+" to assets/navine/sigma.jpg in jarfile")
-            logadd("Written "+imagefilep+" to assets/navine/sigma.jpg in jarfile")
+            if jfexists(njf,"assets/navine/sigma.png"):
+                jfremove(njf,"assets/navine/sigma.png")
+                jbfwrite(njf,"assets/navine/sigma.png",icontent)
+                print(Fore.GREEN+"Written "+imagefilep+" to assets/navine/sigma.png in jarfile")
+                logadd("Written "+imagefilep+" to assets/navine/sigma.png in jarfile")
+            else:
+                jfremove(njf,"assets/navine/sigma.jpg")
+                jbfwrite(njf,"assets/navine/sigma.jpg",icontent)
+                print(Fore.GREEN+"Written "+imagefilep+" to assets/navine/sigma.jpg in jarfile")
+                logadd("Written "+imagefilep+" to assets/navine/sigma.jpg in jarfile")
     if choi == "icon":
             imagefilep = input(Fore.CYAN+"Select your input png file:\n")
             logadd("User selected image: "+imagefilep)
